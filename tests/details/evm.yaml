@@ -21,4 +21,48 @@ test_cases:
             pop: 1
             fee: 2
           groups: [ EVM_GRP_STACK_READ ]
+  -
+    input:
+      bytes: [ 0x5f, 0x5f, 0x1c, 0x47, 0xff ]
+      arch: "evm"
+      options: [ CS_OPT_DETAIL ]
+      address: 0x0
+    expected:
+      insns:
+      -
+        asm_text: "push0"
+        details:
+          evm:
+            push: 1
+            fee: 3
+          groups: [ EVM_GRP_STACK_WRITE ]
+      -
+        asm_text: "push0"
+        details:
+          evm:
+            push: 1
+            fee: 3
+          groups: [ EVM_GRP_STACK_WRITE ]
+      -
+        asm_text: "shr"
+        details:
+          evm:
+            pop: 2
+            push: 1
+            fee: 3
+          groups: [ EVM_GRP_STACK_READ, EVM_GRP_STACK_WRITE, EVM_GRP_MATH ]
+      -
+        asm_text: "selfbalance"
+        details:
+          evm:
+            push: 1
+            fee: 5
+          groups: [ EVM_GRP_STACK_WRITE ] 
+      - 
+        asm_text: "selfdestruct"
+        details:
+          evm:
+            pop: 1
+            fee: 5000
+          groups: [ EVM_GRP_STACK_READ, EVM_GRP_HALT ]
 
